@@ -1,0 +1,298 @@
+package lab6q2;
+
+public class ExtraCheese extends ToppingDecorator {
+
+	public ExtraCheese(Pizza newPizza) {
+		super(newPizza); // Super = ToppingDecorator
+		
+		System.out.println("Adding Mozzerella @ $0.50");
+	}
+
+	// FROM TOPPINGDECORATOR
+	@Override
+	public String prepareFood() {
+		
+		//return tempPizza.prepareFood() + ", Extra Cheese";
+		return super.prepareFood() + ", Extra Cheese";
+	}
+	
+	@Override
+	public double getCost() {
+		
+		//return tempPizza.getCost() + .50;
+		return super.getCost() + 2.50;
+		
+	}
+}
+
+
+
+----------------
+
+
+
+
+
+
+package lab6q2;
+
+public class Pepperoni extends ToppingDecorator{
+	
+	public Pepperoni(Pizza newPizza) {
+		super(newPizza); // Super = ToppingDecorator
+		
+		
+		System.out.println("Adding Pepperoni @ $0.75");
+	}
+	
+	
+	
+	// FROM TOPPINGDECORATOR
+	@Override
+	public String prepareFood() {
+		
+		
+		return super.prepareFood() + ", Pepperoni";
+	}
+	
+	@Override
+	public double getCost() {
+		
+		return super.getCost() + 3.00;
+		
+	}
+
+}
+
+
+
+---------------
+
+
+
+
+package lab6q2;
+
+public interface Pizza {
+
+	public String prepareFood();
+	
+	public double getCost();
+
+	
+}
+
+
+------------------
+
+package lab6q2;
+
+public class PlainPizza implements Pizza{
+
+	@Override
+	public String prepareFood() {
+		// TODO Auto-generated method stub
+		return "Plain Pizza";
+	}
+
+	@Override
+	public double getCost() {
+		// TODO Auto-generated method stub
+		return 9.99;
+	}
+
+	
+}
+
+
+-------------------------
+
+
+
+package lab6q2;
+
+public class Sausage extends ToppingDecorator{
+
+	
+	
+	
+	public Sausage(Pizza newPizza) {
+		super(newPizza); // Super = ToppingDecorator
+		
+		
+		
+		
+		System.out.println("Adding Sausauge @ $1.00");
+	}
+	
+	
+	
+	// FROM TOPPINGDECORATOR
+	@Override
+	public String prepareFood() {
+		
+		return super.prepareFood() + ", Sausage";
+	}
+	
+	
+	
+	@Override
+	public double getCost() {
+		
+		return super.getCost() + 3.50;
+		
+	}
+
+}
+
+
+
+---------------------------
+
+
+
+package lab6q2;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+
+
+
+// https://hastebin.com/anuhamarog.java
+
+
+
+
+public class tester {
+
+	private static int choice;
+	public static Scanner in = new Scanner(System.in);
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+
+		
+		Pizza basicPizza = new PlainPizza();
+		System.out.println(basicPizza.getCost());
+
+		Pizza basicPizza2 = new Sausage(new ExtraCheese(new PlainPizza()));
+		System.out.println(basicPizza2.getCost());
+
+		
+		
+		
+		while(true) {
+
+
+			System.out.println("========= The Cheesey Weasel Pizza Parlour =========\n");
+			System.out.println("          1. Plain Pizza. ");
+			System.out.println("          2. Add Extra Cheese ");
+			System.out.println("          3. Add Pepperoni  ");
+			System.out.println("          4. Add Sausage ");
+			System.out.println("          5. Exit \n");
+
+			// System.out.println("Enter your choice: ");
+			//choice = in.nextInt();
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			choice = Integer.parseInt(br.readLine());
+
+			//if(choice == 1) {
+
+
+			switch(choice) {
+			
+			
+			case 1:{
+				PlainPizza pp = new PlainPizza();
+				
+				System.out.println(pp.prepareFood());
+				System.out.println(pp.getCost());
+				
+				System.out.println("");
+			} break;
+
+			case 2:{
+
+				basicPizza = new ExtraCheese(basicPizza);
+				System.out.println(basicPizza.prepareFood());
+				System.out.println(basicPizza.getCost());
+				
+				System.out.println("");
+
+			}break;
+
+			case 3:{
+
+				basicPizza = new Pepperoni(basicPizza);
+				System.out.println(basicPizza.prepareFood());
+				System.out.println(basicPizza.getCost());
+				
+
+			}break;
+
+			case 4:{
+
+				basicPizza = new Sausage(basicPizza);
+				System.out.println(basicPizza.prepareFood());
+				System.out.println(basicPizza.getCost());
+				
+				
+			}break;
+			
+			
+			default:{
+				System.out.println("Other than these no food available");
+			}
+			
+			case 5:{
+				
+		
+				return;
+			}
+			}
+		}
+	}
+}
+
+---------------------------
+
+
+
+
+package lab6q2;
+
+
+// Design a simple pizza and use three different 
+// types of toppings (pepperoni, sausage, and extra cheese) in any order the customers wants.
+
+public abstract class ToppingDecorator implements Pizza{ 
+	
+	// Implements allows ToppingDecorator access to the same information as plain pizza
+	protected Pizza newPizza;
+	//protected double totalCost = 0;
+	
+	public ToppingDecorator(Pizza newPizza) {
+		
+		this.newPizza = newPizza;
+		//totalCost = 0;
+	}
+	
+	// Implementing methods from Pizza Interface
+	
+	// Allows anything that implements ToppingDecorator access to these methods!!!
+	
+	public String prepareFood() {
+		
+		return newPizza.prepareFood();
+	}
+	
+	public double getCost() {
+		
+		return newPizza.getCost();
+		
+	}
+							
+}
